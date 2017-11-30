@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour {
         anim.enabled = true;
         anim.Play("DudeWalk");
         transform.Translate(Vector3.forward * Time.deltaTime);
- 
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -36,7 +36,8 @@ public class Enemy : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Destroy(collision.gameObject);
-            Player.loseCondition++;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(2);
         }
 

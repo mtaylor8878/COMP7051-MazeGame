@@ -15,8 +15,8 @@ public class Player : MonoBehaviour {
     public GameObject ballPrefab;
     public Text scoreHUD;
     public static int score;
-    
-    public bool musicPlaying = false;
+
+    public bool musicPlaying = true;
     public static AudioSource bgm;
     public AudioClip daytime;
     public AudioClip nightTime;
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour {
         pov.GetComponent<Camera>().SetReplacementShader(mainShader, null);
         sun = GameObject.Find("Sun");
         bgm = GameObject.Find("BGM").GetComponent<AudioSource>();
+        playDay();
     }
 
     // Update is called once per frame
@@ -64,26 +65,24 @@ public class Player : MonoBehaviour {
             Destroy(ball, 5.0f);
         }
         scoreHUD.text = "Score: " + score;
-
-        if (day)
-            playDay();
-        else
-            playNight();
-        
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Enemy")
         {
             Destroy(collision.gameObject);
-            Player.loseCondition++;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(2);
         }
 
         if (collision.gameObject.tag == "Goal")
         {
             winCondition++;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(0);
         }
     }
@@ -95,6 +94,10 @@ public class Player : MonoBehaviour {
             GetComponent<AudioSource>().clip = hit;
             GetComponent<AudioSource>().Play();
         }
+
+        if (other.gameObject.tag == "Door") {
+            SceneManager.LoadScene(3);
+        }
     }
 
     public void setTime(bool day) {
@@ -103,9 +106,11 @@ public class Player : MonoBehaviour {
         if(day) {
             sun.GetComponent<Light>().intensity = 1;
             sun.transform.localRotation = Quaternion.Euler(50f,-30f,0f);
+            playDay();
         } else {
             sun.GetComponent<Light>().intensity = 0.2f;
             sun.transform.localRotation = Quaternion.Euler(195f, -30f, 0f);
+            playNight();
         }
     }
 
@@ -126,24 +131,26 @@ public class Player : MonoBehaviour {
     public void toggleMusic()
     {
         musicPlaying = !musicPlaying;
+        Debug.Log("Music " + musicPlaying);
+        if (musicPlaying) {
+            bgm.Play();
+        } else {
+            bgm.Stop();
+        }
     }
 
     public void playDay()
     {
-        if (musicPlaying)
-        {
-            bgm.clip = daytime;
+        bgm.clip = daytime;
+        if(musicPlaying)
             bgm.Play();
-        }
     }
 
     public void playNight()
     {
+        bgm.clip = nightTime;
         if (musicPlaying)
-        {
-            bgm.clip = nightTime;
             bgm.Play();
-        }
     }
 
     public void stopMusic()
