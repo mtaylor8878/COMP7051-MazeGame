@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class Enemy : MonoBehaviour {
     public int forwardWeight = 2;
     public static int loseCondition = 0;
+    public AudioClip hit;
+
     // Use this for initialization
     void Start () {
-		
-	}
+        GetComponent<AudioSource>().playOnAwake = false;
+        GetComponent<AudioSource>().clip = hit;
+    }
 
 // Update is called once per frame
     void Update()
@@ -36,6 +39,13 @@ public class Enemy : MonoBehaviour {
             Destroy(collision.gameObject);
             loseCondition++;
             SceneManager.LoadScene(0);
+        }
+
+        if (collision.gameObject.tag == "Ball")
+        {
+            Destroy(collision.gameObject);
+            Player.score = Player.score + 100;
+            GetComponent<AudioSource>().Play();
         }
     }
 

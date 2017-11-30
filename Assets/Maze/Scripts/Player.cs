@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
@@ -10,6 +11,9 @@ public class Player : MonoBehaviour {
     public GameObject pov;
     public Shader mainShader;
     public GameObject sun;
+    public GameObject ballPrefab;
+    public Text scoreHUD;
+    public static int score;
 
     private bool day = true;
     private bool fog = true;
@@ -36,6 +40,16 @@ public class Player : MonoBehaviour {
         if (Input.GetButtonDown("Flashlight")) {
             toggleFlashLight();
         }
+
+        if (Input.GetButtonDown("Throw"))
+        {
+            GameObject ball = Instantiate(ballPrefab, GameObject.Find("HandPosition").transform);
+            ball.transform.localPosition = Vector3.zero;
+            ball.GetComponent<Rigidbody>().AddForce((pov.transform.forward) * 250);
+            ball.transform.parent = GameObject.Find("GameController").transform;
+            Destroy(ball, 5.0f);
+        }
+        scoreHUD.text = "Score: " + score;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -51,6 +65,11 @@ public class Player : MonoBehaviour {
         {
             winCondition++;
             SceneManager.LoadScene(0);
+        }
+
+        if (collision.gameObject.tag == "Wall")
+        {
+
         }
     }
 
