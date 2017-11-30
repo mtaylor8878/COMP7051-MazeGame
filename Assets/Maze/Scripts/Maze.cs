@@ -8,6 +8,7 @@ public class Maze : MonoBehaviour {
     public float generationStepDelay;
     public MazePassage passagePrefab;
     public MazeWall wallPrefab;
+    public GameObject doorPrefab;
 
     private MazeCell[,] cells;
 
@@ -30,13 +31,18 @@ public class Maze : MonoBehaviour {
             yield return delay;
             DoNextGenerationStep(activeCells);
         }
-        IntVector2 randWall = new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
-        MazeCell cell = getCell(randWall);
-        MazeDirection dir;
-        for(int i = 0; i < MazeDirections.Count; i++) {
-
+        MazeCell cell = null;
+        MazeWall[] walls = new MazeWall[0];
+        while(walls.Length <= 0) {
+            IntVector2 randWall = new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
+            cell = getCell(randWall);
+            walls = getWalls(cell);
         }
-
+        MazeDirection dir = walls[Random.Range(0, walls.Length)].direction;
+        GameObject door = Instantiate(doorPrefab);
+        door.transform.parent = cell.transform;
+        door.transform.localPosition = Vector3.zero;
+        door.transform.localRotation = dir.toRotation();
     }
 
     private MazeCell createCell(IntVector2 coords) {
@@ -96,6 +102,16 @@ public class Maze : MonoBehaviour {
             wall = Instantiate(wallPrefab) as MazeWall;
             wall.Initialize(otherCell, cell, direction.getOpposite());
         }
+    }
+
+    private MazeWall[] getWalls(MazeCell cell) {
+        List<MazeWall> walls = new List<MazeWall>();
+        foreach(Transform t in cell.transform) {
+            MazeWall wall = t.GetComponent<MazeWall>();
+            if (wall != null)
+                walls.Add(wall);
+        }
+        return walls.ToArray();
     }
 
     public bool containsCoordinates (IntVector2 coordinate) {

@@ -24,8 +24,9 @@ public class Win : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Player.winCondition++;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(2);
-            Debug.Log("Hit Hit");
         }
     }
 }
