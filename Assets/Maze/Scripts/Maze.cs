@@ -30,6 +30,13 @@ public class Maze : MonoBehaviour {
             yield return delay;
             DoNextGenerationStep(activeCells);
         }
+        IntVector2 randWall = new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
+        MazeCell cell = getCell(randWall);
+        MazeDirection dir;
+        for(int i = 0; i < MazeDirections.Count; i++) {
+
+        }
+
     }
 
     private MazeCell createCell(IntVector2 coords) {
