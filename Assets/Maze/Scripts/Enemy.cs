@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour {
     public int forwardWeight = 2;
-    public static int loseCondition = 0;
     public AudioClip hit;
 
     // Use this for initialization
@@ -21,7 +20,7 @@ public class Enemy : MonoBehaviour {
         anim.enabled = true;
         anim.Play("DudeWalk");
         transform.Translate(Vector3.forward * Time.deltaTime);
- 
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -39,8 +38,7 @@ public class Enemy : MonoBehaviour {
             Destroy(collision.gameObject);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            loseCondition++;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
 
         if (collision.gameObject.tag == "Ball")
