@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour {
             Destroy(collision.gameObject);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
 
         if (collision.gameObject.tag == "Ball")

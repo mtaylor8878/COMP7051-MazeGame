@@ -18,7 +18,7 @@ public class MazeDoor : MonoBehaviour {
     void OnTriggerEnter(Collider collide) {
         Debug.Log(collide.tag);
         if(collide.gameObject.tag == "Player") {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 }

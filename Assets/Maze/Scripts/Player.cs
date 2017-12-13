@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
             Destroy(collision.gameObject);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
 
         if (collision.gameObject.tag == "Goal")
@@ -83,7 +83,10 @@ public class Player : MonoBehaviour {
             winCondition++;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
+        }
+
+        if (collision.gameObject.tag == "Wall") {
         }
     }
 
@@ -91,12 +94,13 @@ public class Player : MonoBehaviour {
     {
         if (other.gameObject.tag == "Wall")
         {
+            Debug.Log("Hit Wall");
             GetComponent<AudioSource>().clip = hit;
             GetComponent<AudioSource>().Play();
         }
 
         if (other.gameObject.tag == "Door") {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 

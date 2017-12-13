@@ -9,7 +9,8 @@ public class PlayAgain : MonoBehaviour {
     {
         Player.loseCondition = 0;
         Player.winCondition = 0;
+        Player.score = 0;
         Cursor.visible = false;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }

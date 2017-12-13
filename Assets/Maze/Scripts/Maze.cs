@@ -24,6 +24,10 @@ public class Maze : MonoBehaviour {
 
     public IEnumerator generate() {
         WaitForSeconds delay = new WaitForSeconds(generationStepDelay);
+        if(size.x == 0 || size.z == 0) {
+            size.x = 10;
+            size.z = 10;
+        }
         cells = new MazeCell[size.x, size.z];
         List<MazeCell> activeCells = new List<MazeCell>();
         DoFirstGenerationStep(activeCells);

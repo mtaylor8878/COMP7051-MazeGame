@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour {
 
     public void endGame(int winner) {
         Destroy(ball);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void scorePlayer(int player) {
